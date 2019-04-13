@@ -9,4 +9,5 @@ Supports translation files.
 
 ## Credits
 Programming - Dem
+
 Idea author - Player701 
