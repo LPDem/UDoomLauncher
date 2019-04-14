@@ -35,17 +35,18 @@ uses
 
 procedure TfmLanguage.Btn_GenerateLangPackClick(Sender: TObject);
 var
-  Stream: TFileStream;
+  SL: TStringList;
   s: string;
 begin
   if SaveDialog.Execute then
   begin
     s := LanguagePacksManager.GenerateLangPack;
-    Stream := TFileStream.Create(SaveDialog.FileName, fmCreate);
+    SL := TStringList.Create;
     try
-      Stream.WriteBuffer(s[1], Length(s));
+      SL.Text := s;
+      SL.SaveToFile(SaveDialog.FileName, TEncoding.UTF8);
     finally
-      Stream.Free;
+      SL.Free;
     end;
   end;
 end;

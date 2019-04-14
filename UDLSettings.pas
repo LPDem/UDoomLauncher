@@ -410,7 +410,7 @@ begin
   try
     SL := TStringList.Create;
     try
-      SL.LoadFromFile(ConfigFile);
+      SL.LoadFromFile(ConfigFile, TEncoding.UTF8);
       Index := FindNextSection(SL, 0);
       while (Index >= 0) do
       begin

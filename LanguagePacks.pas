@@ -415,7 +415,7 @@ procedure TLanguagePacksManager.SetActiveLanguagePack(var Locale: Integer; const
 var
   k: Integer;
   s: string;
-  Stream: TFileStream;
+  SL: TStringList;
 begin
   k := PackIndexByLocale(Locale);
   if k = -1 then
@@ -437,12 +437,12 @@ begin
     FActivePackText := FDefaultPackText
   else
   begin
-    Stream := TFileStream.Create(FLanguagePacks[k].FileName, fmOpenRead + fmShareDenyNone);
+    SL := TStringList.Create;
     try
-      SetLength(s, Stream.Size);
-      Stream.ReadBuffer(s[1], Stream.Size);
+      SL.LoadFromFile(FLanguagePacks[k].FileName, TEncoding.UTF8);
+      s := SL.Text;
     finally
-      Stream.Free;
+      SL.Free;
     end;
     FActivePackText := s;
   end;

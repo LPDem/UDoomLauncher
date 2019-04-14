@@ -10,7 +10,7 @@ uses
   UDLSettingsValues, UDLPorts, uMasterServerFrame, System.Actions;
 
 const
-  Version = '1.2';
+  Version = '1.3';
   RegKey = 'Software\UDoomLauncher';
 
 type
@@ -1360,11 +1360,11 @@ end;
 
 procedure TFmMain.LoadHashesFromIni;
 var
-  Ini: TIniFile;
+  Ini: TMemIniFile;
   Sections: TStringList;
   i, j, k: Integer;
 begin
-  Ini := TIniFile.Create(ExtractFilePath(Application.ExeName) + 'WADsHashes.ini');
+  Ini := TMemIniFile.Create(ExtractFilePath(Application.ExeName) + 'WADsHashes.ini', TEncoding.UTF8);
   try
     Sections := TStringList.Create;
     try

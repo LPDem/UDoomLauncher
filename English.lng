@@ -11,7 +11,7 @@ Name = English
 
 Lbl_ExeFile.Caption = Doom port
 Lbl_Config.Caption = Preset
-Edt_Params.EditLabel.Caption = Additional parameters
+Lbl_Params.Caption = Additional parameters
 TS_WADs.Caption = Files
 TS_Common.Caption = Common PWADs
 TS_ForIWAD.Caption = PWADs for IWAD

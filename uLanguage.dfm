@@ -38,7 +38,6 @@ object fmLanguage: TfmLanguage
     Height = 21
     Style = csDropDownList
     Anchors = [akLeft, akTop, akRight]
-    ItemHeight = 0
     TabOrder = 0
     OnSelect = Cb_LanguageSelect
   end
