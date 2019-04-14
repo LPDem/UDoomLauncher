@@ -27,14 +27,14 @@ initialization
   LanguagePacksManager.AddResourceString('PortDeleteConfirmation', 'Серьёзно хотите удалить этот порт?');
   LanguagePacksManager.AddResourceString('ProfileAllreadyExists', 'Такой профиль уже существует! Перезаписать его?');
   LanguagePacksManager.AddResourceString('CommandLine', 'Строка запуска');
-  LanguagePacksManager.AddResourceString('HexDDWarning', 'Невозможно играть в HexDD.wad без HEXEN.WAD. Добавьте HEXEN.WAD в папку с (G)Zdoom, и можно будет начать игру.');
+  LanguagePacksManager.AddResourceString('HexDDWarning', 'Невозможно играть в HexDD.wad без HEXEN.WAD. Добавьте HEXEN.WAD в папку с Doom, и можно будет начать игру.');
   LanguagePacksManager.AddResourceString('CantExecute', 'Не удалось выполнить команду');
   LanguagePacksManager.AddResourceString('FileIsNotIWAD', 'Файл %s не является IWAD''ом!');
   LanguagePacksManager.AddResourceString('StrifeVoicesWarning', 'Этот IWAD нельзя подключить отдельно. Поместите его в папку со STRIFE1.wad, и он добавится автоматически!');
   LanguagePacksManager.AddResourceString('IWADAllreadyExists', 'Такой IWAD уже есть в списке!');
   LanguagePacksManager.AddResourceString('NoPorts', 'Не настроено ни одного порта Doom! Добавить новый порт?');
   LanguagePacksManager.AddResourceString('PortAllreadyExists', 'Такой порт уже есть в списке!');
-  LanguagePacksManager.AddResourceString('WrongPort', 'Неверный порт. Поддерживаются (G)ZDoom и Skulltag!');
+  LanguagePacksManager.AddResourceString('WrongPort', 'Неизвестный порт, корректная работа не гарантируется!');
   LanguagePacksManager.AddResourceString('ModifiedVersion', 'мод. версия');
   LanguagePacksManager.AddResourceString('SetDefaultValue', 'Установить значение по умолчанию');
   LanguagePacksManager.AddResourceString('FilePropFilter', 'Все файлы (*.*)|*.*');
