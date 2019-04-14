@@ -10,7 +10,7 @@ uses
   UDLSettingsValues, UDLPorts, uMasterServerFrame, System.Actions;
 
 const
-  Version = '1.0.0';
+  Version = '1.1.0';
   RegKey = 'Software\UDoomLauncher';
 
 type
@@ -221,7 +221,7 @@ var
 implementation
 
 uses
-  Registry, IniFiles, md5, DoomWAD, StrUtils, uMessageForm, Math, FormPlacement, ShellAPI, 
+  Registry, IniFiles, IdHashMessageDigest, DoomWAD, StrUtils, uMessageForm, Math, FormPlacement, ShellAPI,
   uLanguage, LanguagePacks, uResources;
 
 {$R *.dfm}
@@ -583,8 +583,20 @@ begin
 end;
 
 function TFmMain.CalcWADHash(const FileName: string): string;
+var
+  Stream: TFileStream;
 begin
-  Result := MD5Print(MD5File(FileName));
+  Stream := TFileStream.Create(FileName, fmOpenRead);
+  try
+    with TIdHashMessageDigest5.Create do
+    try
+      Result := AnsiLowerCase(HashStreamAsHex(Stream));
+    finally
+      Free;
+    end;
+  finally
+    Stream.Free;
+  end;
 end;
 
 procedure TFmMain.CB_ConfigSelect(Sender: TObject);

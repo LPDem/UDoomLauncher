@@ -8,7 +8,7 @@ uses
 type
   TPWADsList = class;
 
-  TDoomPortType = (ptUnknown, ptZDoom, ptGZDoom, ptSkullTag);
+  TDoomPortType = (ptUnknown, ptGZDoom);
   TDoomPortTypeSet = set of TDoomPortType;
 
   TPWADsList = class(TStreamedObjectList)
@@ -122,10 +122,7 @@ end;
 
 function TDoomPort.CmdParams(const GameType: Integer): string;
 begin
-  if (GameType = 2) and (FPortType = ptSkullTag) then
-    Result := '-host'
-  else
-    Result := '';
+  Result := '';
 end;
 
 procedure TDoomPort.LoadFromTypedStream(const Stream: TTypedStream);
@@ -164,16 +161,10 @@ begin
   FFileName := Value;
   VersionInfo := TJvVersionInfo.Create(FFileName);
   try
-    FDescr := VersionInfo.FileDescription;
+    FDescr := VersionInfo.ProductName;
     FVer := VersionInfo.FileVersion;
-    if AnsiPos('ZDoom', FDescr) >= 0 then
-      FPortType := ptZDoom
-    else
-    if AnsiPos('GZDoom', FDescr) >= 0 then
+    if AnsiPos('GZDoom', FDescr) = 1 then
       FPortType := ptGZDoom
-    else
-    if AnsiPos('SkullTag', FDescr) >= 0 then
-      FPortType := ptSkullTag
     else
       FPortType := ptUnknown;
   finally

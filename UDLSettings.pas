@@ -215,7 +215,7 @@ begin
   Param := GetStringFromList(SL, 'Param', False);
   s := GetStringFromList(SL, 'Port', False);
   if s = '' then
-    Port := [ptUnknown, ptZDoom, ptGZDoom, ptSkullTag]
+    Port := [ptUnknown, ptGZDoom]
   else
   begin
     t := TStringList.Create;
@@ -224,14 +224,8 @@ begin
       t.QuoteChar := #0;
       t.DelimitedText := s;
       for i := 0 to t.Count - 1 do
-        if AnsiSameText(Trim(t[i]), 'ZDoom') then
-          Port := Port + [ptZDoom]
-        else
         if AnsiSameText(Trim(t[i]), 'GZDoom') then
           Port := Port + [ptGZDoom]
-        else
-        if AnsiSameText(Trim(t[i]), 'SkullTag') then
-          Port := Port + [ptSkullTag]
         else
           Port := Port + [ptUnknown];
     finally

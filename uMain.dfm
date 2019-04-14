@@ -251,6 +251,10 @@ object FmMain: TFmMain
           object TS_ForIWAD: TTabSheet
             Caption = 'PWAD '#1076#1083#1103' IWAD'
             ImageIndex = 1
+            ExplicitLeft = 0
+            ExplicitTop = 0
+            ExplicitWidth = 0
+            ExplicitHeight = 0
             object LB_PWADsForIWAD: TCheckListBox
               Tag = 666
               Left = 0
@@ -357,18 +361,34 @@ object FmMain: TFmMain
     object TS_Main: TTabSheet
       Caption = #1054#1073#1097#1080#1077
       ImageIndex = 3
+      ExplicitLeft = 0
+      ExplicitTop = 0
+      ExplicitWidth = 0
+      ExplicitHeight = 0
     end
     object TS_SinglePlayer: TTabSheet
       Caption = 'Single player'
       ImageIndex = 2
+      ExplicitLeft = 0
+      ExplicitTop = 0
+      ExplicitWidth = 0
+      ExplicitHeight = 0
     end
     object TS_Multiplayer_C: TTabSheet
       Caption = #1050#1083#1080#1077#1085#1090' - Multiplayer'
       ImageIndex = 1
+      ExplicitLeft = 0
+      ExplicitTop = 0
+      ExplicitWidth = 0
+      ExplicitHeight = 0
     end
     object TS_Multiplayer_S: TTabSheet
       Caption = #1057#1077#1088#1074#1077#1088' - Multiplayer'
       ImageIndex = 4
+      ExplicitLeft = 0
+      ExplicitTop = 0
+      ExplicitWidth = 0
+      ExplicitHeight = 0
     end
     object TS_MasterServer: TTabSheet
       Caption = #1052#1072#1089#1090#1077#1088'-'#1089#1077#1088#1074#1077#1088
