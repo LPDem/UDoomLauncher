@@ -10,7 +10,7 @@ uses
   UDLSettingsValues, UDLPorts, uMasterServerFrame, System.Actions;
 
 const
-  Version = '1.3';
+  Version = '1.4';
   RegKey = 'Software\UDoomLauncher';
 
 type

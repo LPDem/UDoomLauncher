@@ -6,7 +6,6 @@ program UDoomLauncher;
 uses
   Forms,
   uMain in 'uMain.pas' {FmMain},
-  MD5 in 'MD5.pas',
   DoomWAD in 'DoomWAD.pas',
   uMessageForm in 'uMessageForm.pas' {fmMessage},
   StreamedObjects in 'StreamedObjects.pas',

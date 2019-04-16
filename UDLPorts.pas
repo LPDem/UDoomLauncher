@@ -68,7 +68,7 @@ type
 implementation
 
 uses
-  SysUtils, JvVersionInfo;
+  SysUtils, JvVersionInfo, System.Character;
 
 procedure TPWAD.LoadFromTypedStream(const Stream: TTypedStream);
 begin
@@ -166,7 +166,13 @@ begin
     if AnsiPos('GZDoom', FDescr) = 1 then
       FPortType := ptGZDoom
     else
+    begin
       FPortType := ptUnknown;
+      if FDescr = '' then
+        FDescr := ChangeFileExt(ExtractFileName(FFileName), '');
+      if FDescr.Length > 0 then
+        FDescr[1] := FDescr[1].ToUpper;
+    end;
   finally
     VersionInfo.Free;
   end;
