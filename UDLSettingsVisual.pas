@@ -8,7 +8,8 @@ uses
 
 const
   LeftMargin = 150;
-  LabelSpace = 3;
+  LabelSpace = 5;
+  BottomMargin = 5;
 
 type
   TUDLVisualList = class;
@@ -23,7 +24,7 @@ type
   protected
     FRightMargin: Integer;
     FUDLSetting: TUDLSetting;
-    procedure AdjustHeight;
+    procedure AdjustHeight; virtual;
     procedure CreateEditor; virtual;
     procedure FreeEditor; virtual; abstract;
     function GetValue: Variant; virtual; abstract;
@@ -46,9 +47,20 @@ type
     property Value: Variant read GetValue write SetValue;
   end;
 
-  TUDLStringVisual = class(TUDLSettingVisual)
+  TUDLSettingVisualWithLabel = class abstract(TUDLSettingVisual)
   private
-    FEdit: TLabeledEdit;
+    FLabel: TLabel;
+  protected
+    procedure AdjustHeight; override;
+    procedure CreateEditor; override;
+    procedure FreeEditor; override;
+  public
+    procedure UpdateCaptions; override;
+  end;
+
+  TUDLStringVisual = class(TUDLSettingVisualWithLabel)
+  private
+    FEdit: TEdit;
   protected
     procedure CreateEditor; override;
     procedure FreeEditor; override;
@@ -59,10 +71,9 @@ type
     procedure UpdateCaptions; override;
   end;
 
-  TUDLIntegerVisual = class(TUDLSettingVisual)
+  TUDLIntegerVisual = class(TUDLSettingVisualWithLabel)
   private
     FEdit: TNumericEdit;
-    FLabel: TLabel;
   protected
     procedure CreateEditor; override;
     procedure FreeEditor; override;
@@ -86,10 +97,9 @@ type
     procedure UpdateCaptions; override;
   end;
 
-  TUDLFloatVisual = class(TUDLSettingVisual)
+  TUDLFloatVisual = class(TUDLSettingVisualWithLabel)
   private
     FEdit: TNumericEdit;
-    FLabel: TLabel;
   protected
     procedure CreateEditor; override;
     procedure FreeEditor; override;
@@ -100,10 +110,9 @@ type
     procedure UpdateCaptions; override;
   end;
 
-  TUDLTrackBarVisual = class(TUDLSettingVisual)
+  TUDLTrackBarVisual = class(TUDLSettingVisualWithLabel)
   private
     FEdit: TNumericEdit;
-    FLabel: TLabel;
     FTrack: TTrackBar;
   protected
     procedure CreateEditor; override;
@@ -117,10 +126,9 @@ type
     procedure UpdateCaptions; override;
   end;
 
-  TUDLFileNameVisual = class(TUDLSettingVisual)
+  TUDLFileNameVisual = class(TUDLSettingVisualWithLabel)
   private
     FEdit: TEditWithButton;
-    FLabel: TLabel;
   protected
     procedure CreateEditor; override;
     procedure FreeEditor; override;
@@ -132,10 +140,9 @@ type
     procedure UpdateCaptions; override;
   end;
 
-  TUDLBitFlagsVisual = class(TUDLSettingVisual)
+  TUDLBitFlagsVisual = class(TUDLSettingVisualWithLabel)
   private
     FEdit: TNumericEdit;
-    FLabel: TLabel;
   protected
     procedure CreateEditor; override;
     procedure FreeEditor; override;
@@ -147,10 +154,9 @@ type
     procedure UpdateCaptions; override;
   end;
 
-  TUDLListVisual = class(TUDLSettingVisual)
+  TUDLListVisual = class(TUDLSettingVisualWithLabel)
   private
     FEdit: TComboBox;
-    FLabel: TLabel;
   protected
     procedure CreateEditor; override;
     procedure FreeEditor; override;
@@ -161,10 +167,9 @@ type
     procedure UpdateCaptions; override;
   end;
 
-  TUDLFolderNameVisual = class(TUDLSettingVisual)
+  TUDLFolderNameVisual = class(TUDLSettingVisualWithLabel)
   private
     FEdit: TEditWithButton;
-    FLabel: TLabel;
   protected
     procedure CreateEditor; override;
     procedure FreeEditor; override;
@@ -208,7 +213,7 @@ type
 implementation
 
 uses
-  SysUtils, UDLBitFlagsEditor, Math, Dialogs, ShlObj, ActiveX, Forms, Variants, uResources;
+  SysUtils, UDLBitFlagsEditor, Math, Dialogs, ShlObj, ActiveX, Forms, Variants, Vcl.Graphics, uResources;
 
 function SelectDirCallBack(Wnd: HWND; uMsg: UINT; lParam, lpData: LPARAM): Integer stdcall;
 begin
@@ -223,6 +228,7 @@ begin
   Align := alTop;
   Width := 200;
   FRightMargin := Width;
+  BevelOuter := bvNone;
 end;
 
 procedure TUDLSettingVisual.AdjustHeight;
@@ -357,12 +363,11 @@ end;
 procedure TUDLStringVisual.CreateEditor;
 begin
   inherited CreateEditor;
-  FEdit := TLabeledEdit.Create(Self);
+  FEdit := TEdit.Create(Self);
   FEdit.Top := 1;
   FEdit.Left := LeftMargin;
   FEdit.Width := FRightMargin - FEdit.Left - 1;
   FEdit.Anchors := [akLeft, akRight, akTop];
-  FEdit.LabelPosition := lpLeft;
   FEdit.OnChange := OnChange;
   FEdit.Parent := Self;
 end;
@@ -382,7 +387,7 @@ begin
   inherited SetParent(AParent);
   if Assigned(Parent) then
     FEdit.HandleNeeded;
-  Height := FEdit.Top + FEdit.Height + 2;
+  Height := FEdit.Top + FEdit.Height + 2 + BottomMargin;
   AdjustHeight;
 end;
 
@@ -394,7 +399,6 @@ end;
 procedure TUDLStringVisual.UpdateCaptions;
 begin
   inherited UpdateCaptions;
-  FEdit.EditLabel.Caption := FUDLSetting.TranslatedName;
 end;
 
 procedure TUDLIntegerVisual.CreateEditor;
@@ -413,18 +417,11 @@ begin
     FEdit.MaxValue := FUDLSetting.MaxValue;
   FEdit.OnChange := OnChange;
   FEdit.Parent := Self;
-  FLabel := TLabel.Create(Self);
-  FLabel.Top := FEdit.Top + 3;
-  FLabel.Left := 1;
-  FLabel.Width := FEdit.Left - FLabel.Left - LabelSpace;
-  FLabel.Alignment := taRightJustify;
-  FLabel.Parent := Self;
 end;
 
 procedure TUDLIntegerVisual.FreeEditor;
 begin
   FEdit.Free;
-  FLabel.Free;
 end;
 
 function TUDLIntegerVisual.GetValue: Variant;
@@ -440,7 +437,7 @@ begin
   inherited SetParent(AParent);
   if Assigned(Parent) then
     FEdit.HandleNeeded;
-  Height := FEdit.Top + FEdit.Height + 2;
+  Height := FEdit.Top + FEdit.Height + 2 + BottomMargin;
   AdjustHeight;
 end;
 
@@ -452,7 +449,6 @@ end;
 procedure TUDLIntegerVisual.UpdateCaptions;
 begin
   inherited UpdateCaptions;
-  FLabel.Caption := FUDLSetting.TranslatedName;
 end;
 
 procedure TUDLBooleanVisual.CreateEditor;
@@ -482,7 +478,7 @@ begin
   inherited SetParent(AParent);
   if Assigned(Parent) then
     FEdit.HandleNeeded;
-  Height := FEdit.Top + FEdit.Height + 2;
+  Height := FEdit.Top + FEdit.Height + 2 + BottomMargin;
   AdjustHeight;
 end;
 
@@ -513,18 +509,11 @@ begin
     FEdit.MaxValue := FUDLSetting.MaxValue;
   FEdit.OnChange := OnChange;
   FEdit.Parent := Self;
-  FLabel := TLabel.Create(Self);
-  FLabel.Top := FEdit.Top + 3;
-  FLabel.Left := 1;
-  FLabel.Width := FEdit.Left - FLabel.Left - LabelSpace;
-  FLabel.Alignment := taRightJustify;
-  FLabel.Parent := Self;
 end;
 
 procedure TUDLFloatVisual.FreeEditor;
 begin
   FEdit.Free;
-  FLabel.Free;
 end;
 
 function TUDLFloatVisual.GetValue: Variant;
@@ -537,7 +526,7 @@ begin
   inherited SetParent(AParent);
   if Assigned(Parent) then
     FEdit.HandleNeeded;
-  Height := FEdit.Top + FEdit.Height + 2;
+  Height := FEdit.Top + FEdit.Height + 2 + BottomMargin;
   AdjustHeight;
 end;
 
@@ -549,7 +538,6 @@ end;
 procedure TUDLFloatVisual.UpdateCaptions;
 begin
   inherited UpdateCaptions;
-  FLabel.Caption := FUDLSetting.TranslatedName;
 end;
 
 procedure TUDLTrackBarVisual.CreateEditor;
@@ -575,19 +563,12 @@ begin
   FTrack.Max := Round((FUDLSetting.MaxValue - FUDLSetting.MinValue) / FUDLSetting.Frequency);
   FTrack.OnChange := OnTrackChange;
   FTrack.Parent := Self;
-  FLabel := TLabel.Create(Self);
-  FLabel.Top := FTrack.Top + 5;
-  FLabel.Left := 1;
-  FLabel.Width := FEdit.Left - FLabel.Left - LabelSpace;
-  FLabel.Alignment := taRightJustify;
-  FLabel.Parent := Self;
 end;
 
 procedure TUDLTrackBarVisual.FreeEditor;
 begin
   FEdit.Free;
   FTrack.Free;
-  FLabel.Free;
 end;
 
 function TUDLTrackBarVisual.GetValue: Variant;
@@ -619,7 +600,7 @@ begin
   inherited SetParent(AParent);
   if Assigned(Parent) then
     FTrack.HandleNeeded;
-  Height := FTrack.Top + FTrack.Height + 1;
+  Height := FTrack.Top + FTrack.Height + 1 + BottomMargin;
   AdjustHeight;
 end;
 
@@ -631,7 +612,6 @@ end;
 procedure TUDLTrackBarVisual.UpdateCaptions;
 begin
   inherited UpdateCaptions;
-  FLabel.Caption := FUDLSetting.TranslatedName;
 end;
 
 procedure TUDLFileNameVisual.CreateEditor;
@@ -645,18 +625,11 @@ begin
   FEdit.OnButtonClick := OnButtonClick;
   FEdit.OnChange := OnChange;
   FEdit.Parent := Self;
-  FLabel := TLabel.Create(Self);
-  FLabel.Top := FEdit.Top + 3;
-  FLabel.Left := 1;
-  FLabel.Width := FEdit.Left - FLabel.Left - LabelSpace;
-  FLabel.Alignment := taRightJustify;
-  FLabel.Parent := Self;
 end;
 
 procedure TUDLFileNameVisual.FreeEditor;
 begin
   FEdit.Free;
-  FLabel.Free;
 end;
 
 function TUDLFileNameVisual.GetValue: Variant;
@@ -686,7 +659,7 @@ begin
   inherited SetParent(AParent);
   if Assigned(Parent) then
     FEdit.HandleNeeded;
-  Height := FEdit.Top + FEdit.Height + 2;
+  Height := FEdit.Top + FEdit.Height + 2 + BottomMargin;
   AdjustHeight;
 end;
 
@@ -698,7 +671,6 @@ end;
 procedure TUDLFileNameVisual.UpdateCaptions;
 begin
   inherited UpdateCaptions;
-  FLabel.Caption := FUDLSetting.TranslatedName;
 end;
 
 procedure TUDLBitFlagsVisual.CreateEditor;
@@ -714,18 +686,11 @@ begin
   FEdit.ButtonVisible := True;
   FEdit.OnChange := OnChange;
   FEdit.Parent := Self;
-  FLabel := TLabel.Create(Self);
-  FLabel.Top := FEdit.Top + 3;
-  FLabel.Left := 1;
-  FLabel.Width := FEdit.Left - FLabel.Left - LabelSpace;
-  FLabel.Alignment := taRightJustify;
-  FLabel.Parent := Self;
 end;
 
 procedure TUDLBitFlagsVisual.FreeEditor;
 begin
   FEdit.Free;
-  FLabel.Free;
 end;
 
 function TUDLBitFlagsVisual.GetValue: Variant;
@@ -750,7 +715,7 @@ begin
   inherited SetParent(AParent);
   if Assigned(Parent) then
     FEdit.HandleNeeded;
-  Height := FEdit.Top + FEdit.Height + 2;
+  Height := FEdit.Top + FEdit.Height + 2 + BottomMargin;
   AdjustHeight;
 end;
 
@@ -762,7 +727,6 @@ end;
 procedure TUDLBitFlagsVisual.UpdateCaptions;
 begin
   inherited UpdateCaptions;
-  FLabel.Caption := FUDLSetting.TranslatedName;
 end;
 
 procedure TUDLListVisual.CreateEditor;
@@ -772,23 +736,15 @@ begin
   FEdit.Top := 1;
   FEdit.Left := LeftMargin;
   FEdit.Width := FRightMargin - FEdit.Left - 1;
-  //FEdit.Height := 30;
   FEdit.Anchors := [akLeft, akRight, akTop];
   FEdit.Style := csDropDownList;
   FEdit.OnSelect := OnChange;
   FEdit.Parent := Self;
-  FLabel := TLabel.Create(Self);
-  FLabel.Top := FEdit.Top + 3;
-  FLabel.Left := 1;
-  FLabel.Width := FEdit.Left - FLabel.Left - LabelSpace;
-  FLabel.Alignment := taRightJustify;
-  FLabel.Parent := Self;
 end;
 
 procedure TUDLListVisual.FreeEditor;
 begin
   FEdit.Free;
-  FLabel.Free;
 end;
 
 function TUDLListVisual.GetValue: Variant;
@@ -810,7 +766,7 @@ begin
     FEdit.HandleNeeded;
     UpdateCaptions;
   end;
-  Height := FEdit.Top + FEdit.Height + 2;
+  Height := FEdit.Top + FEdit.Height + 2 + BottomMargin;
   AdjustHeight;
 end;
 
@@ -828,7 +784,6 @@ var
   i, k: Integer;
 begin
   inherited UpdateCaptions;
-  FLabel.Caption := FUDLSetting.TranslatedName;
   if Assigned(Parent) then
   begin
     k := FEdit.ItemIndex;
@@ -851,18 +806,11 @@ begin
   FEdit.OnButtonClick := OnButtonClick;
   FEdit.OnChange := OnChange;
   FEdit.Parent := Self;
-  FLabel := TLabel.Create(Self);
-  FLabel.Top := FEdit.Top + 3;
-  FLabel.Left := 1;
-  FLabel.Width := FEdit.Left - FLabel.Left - LabelSpace;
-  FLabel.Alignment := taRightJustify;
-  FLabel.Parent := Self;
 end;
 
 procedure TUDLFolderNameVisual.FreeEditor;
 begin
   FEdit.Free;
-  FLabel.Free;
 end;
 
 function TUDLFolderNameVisual.GetValue: Variant;
@@ -946,7 +894,7 @@ begin
   inherited SetParent(AParent);
   if Assigned(Parent) then
     FEdit.HandleNeeded;
-  Height := FEdit.Top + FEdit.Height + 2;
+  Height := FEdit.Top + FEdit.Height + 2 + BottomMargin;
   AdjustHeight;
 end;
 
@@ -958,7 +906,6 @@ end;
 procedure TUDLFolderNameVisual.UpdateCaptions;
 begin
   inherited UpdateCaptions;
-  FLabel.Caption := FUDLSetting.TranslatedName;  
 end;
 
 constructor TUDLVisualList.Create;
@@ -979,8 +926,9 @@ begin
   begin
     FPnl_Default := TPanel.Create(FParent);
     FPnl_Default.Align := alTop;
-    FPnl_Default.Height := 22;
+    FPnl_Default.Height := 22 + BottomMargin;
     FPnl_Default.Caption := '';
+    FPnl_Default.BevelOuter := bvNone;
     FButton := TButton.Create(FParent);
     FButton.Width := 100;
     FButton.Height := 20;
@@ -1167,6 +1115,44 @@ begin
       Result := TUDLSettingVisual(FList.Items[i]);
       Break;
     end;
+end;
+
+procedure TUDLSettingVisualWithLabel.AdjustHeight;
+var
+  R: TRect;
+begin
+  inherited;
+  if Assigned(Parent) then
+  begin
+    R := Rect(0, 0, FLabel.Width, FLabel.Height);
+    DrawText(Canvas.Handle, PChar(FLabel.Caption), Length(FLabel.Caption), R, DT_WORDBREAK or DT_RIGHT or DT_CALCRECT);
+    FLabel.Height := R.Bottom - R.Top;
+    Height := Max(Height, FLabel.Top + FLabel.Height + 2 + BottomMargin);
+  end;
+end;
+
+procedure TUDLSettingVisualWithLabel.CreateEditor;
+begin
+  inherited;
+  FLabel := TLabel.Create(Self);
+  FLabel.AutoSize := false;
+  FLabel.WordWrap := true;
+  FLabel.Top := 4;
+  FLabel.Left := 1;
+  FLabel.Width := LeftMargin - FLabel.Left - LabelSpace;
+  FLabel.Alignment := taRightJustify;
+  FLabel.Parent := Self;
+end;
+
+procedure TUDLSettingVisualWithLabel.FreeEditor;
+begin
+  FLabel.Free;
+end;
+
+procedure TUDLSettingVisualWithLabel.UpdateCaptions;
+begin
+  inherited;
+  FLabel.Caption := FUDLSetting.TranslatedName;
 end;
 
 end.

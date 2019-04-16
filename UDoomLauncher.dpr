@@ -23,7 +23,8 @@ uses
   UFileSearch in 'UFileSearch.pas',
   uResources in 'uResources.pas',
   EditWithButton in 'EditWithButton.pas',
-  NumericEdit in 'NumericEdit.pas';
+  NumericEdit in 'NumericEdit.pas',
+  UDLBitFlagsEditor in 'UDLBitFlagsEditor.pas' {fmUDLBitFlagsEditor};
 
 {$R *.res}
 

@@ -3,8 +3,8 @@ object fmUDLBitFlagsEditor: TfmUDLBitFlagsEditor
   Top = 0
   BorderIcons = [biSystemMenu, biMaximize]
   Caption = 'fmUDLBitFlagsEditor'
-  ClientHeight = 165
-  ClientWidth = 330
+  ClientHeight = 311
+  ClientWidth = 434
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -22,7 +22,7 @@ object fmUDLBitFlagsEditor: TfmUDLBitFlagsEditor
     AlignWithMargins = True
     Left = 0
     Top = 2
-    Width = 330
+    Width = 434
     Height = 13
     Margins.Left = 0
     Margins.Top = 2
@@ -36,8 +36,8 @@ object fmUDLBitFlagsEditor: TfmUDLBitFlagsEditor
   object Pnl_Buttons: TPanel
     AlignWithMargins = True
     Left = 0
-    Top = 139
-    Width = 330
+    Top = 285
+    Width = 434
     Height = 25
     Margins.Left = 0
     Margins.Top = 1
@@ -48,10 +48,10 @@ object fmUDLBitFlagsEditor: TfmUDLBitFlagsEditor
     BevelOuter = bvNone
     TabOrder = 1
     DesignSize = (
-      330
+      434
       25)
     object Btn_OK: TButton
-      Left = 159
+      Left = 263
       Top = 0
       Width = 85
       Height = 25
@@ -62,7 +62,7 @@ object fmUDLBitFlagsEditor: TfmUDLBitFlagsEditor
       TabOrder = 0
     end
     object Btn_Cancel: TButton
-      Left = 244
+      Left = 348
       Top = 0
       Width = 85
       Height = 25
@@ -76,11 +76,12 @@ object fmUDLBitFlagsEditor: TfmUDLBitFlagsEditor
   object CheckListBox: TCheckListBox
     Left = 0
     Top = 17
-    Width = 330
-    Height = 121
+    Width = 434
+    Height = 267
     Align = alClient
     ItemHeight = 13
     TabOrder = 0
     OnClick = CheckListBoxClick
+    ExplicitHeight = 264
   end
 end

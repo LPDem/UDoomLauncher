@@ -10,7 +10,7 @@ uses
   UDLSettingsValues, UDLPorts, uMasterServerFrame, System.Actions;
 
 const
-  Version = '1.4';
+  Version = '1.5';
   RegKey = 'Software\UDoomLauncher';
 
 type
@@ -221,7 +221,7 @@ var
 implementation
 
 uses
-  Registry, IniFiles, IdHashMessageDigest, DoomWAD, StrUtils, uMessageForm, Math, FormPlacement, ShellAPI,
+  Types, Registry, IniFiles, IdHashMessageDigest, DoomWAD, StrUtils, uMessageForm, Math, FormPlacement, ShellAPI,
   uLanguage, LanguagePacks, uResources;
 
 {$R *.dfm}
@@ -803,6 +803,7 @@ begin
   SB_Common.VertScrollBar.Tracking := True;
   SB_Common.VertScrollBar.Increment := 32;
   SB_Common.HorzScrollBar.Visible := False;
+  SB_Common.Color := clWindow;
   SB_Singleplayer := TWheelScrollBox.Create(Self);
   SB_Singleplayer.Name := 'SB_Singleplayer';
   SB_Singleplayer.Parent := TS_SinglePlayer;
@@ -811,6 +812,7 @@ begin
   SB_Singleplayer.VertScrollBar.Tracking := True;
   SB_Singleplayer.VertScrollBar.Increment := 32;
   SB_Singleplayer.HorzScrollBar.Visible := False;
+  SB_Singleplayer.Color := clWindow;
   SB_Multiplayer_C := TWheelScrollBox.Create(Self);
   SB_Multiplayer_C.Name := 'SB_Multiplayer_C';
   SB_Multiplayer_C.Parent := TS_Multiplayer_C;
@@ -819,6 +821,7 @@ begin
   SB_Multiplayer_C.VertScrollBar.Tracking := True;
   SB_Multiplayer_C.VertScrollBar.Increment := 32;
   SB_Multiplayer_C.HorzScrollBar.Visible := False;
+  SB_Multiplayer_C.Color := clWindow;
   SB_Multiplayer_S := TWheelScrollBox.Create(Self);
   SB_Multiplayer_S.Name := 'SB_Multiplayer_S';
   SB_Multiplayer_S.Parent := TS_Multiplayer_S;
@@ -827,6 +830,7 @@ begin
   SB_Multiplayer_S.VertScrollBar.Tracking := True;
   SB_Multiplayer_S.VertScrollBar.Increment := 32;
   SB_Multiplayer_S.HorzScrollBar.Visible := False;
+  SB_Multiplayer_S.Color := clWindow;
   IWADs := TStreamedObjectList.Create;
   PWADs := TPWADsList.Create;
   UDLSettingsListS := TUDLSettingsList.Create;
