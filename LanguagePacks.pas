@@ -233,7 +233,7 @@ begin
   SL.Add('[' + Form.ClassName + ']');
   SL.Add('');
   try
-    if Form.Caption <> '' then
+    if (Form.Caption <> '') and (Form.ClassName <> 'TFmMain') then
       SL.Add('Caption = ' + Form.Caption);
     if Form.Hint <> '' then
       SL.Add('Hint = ' + Form.Hint);

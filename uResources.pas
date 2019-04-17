@@ -50,7 +50,8 @@ initialization
   LanguagePacksManager.AddResourceString('NoEndOfSection', 'Не удалось найти конец секции %s!');
   LanguagePacksManager.AddResourceString('ProcessFileError', 'Произошла ошибка во время обработки файла');
   LanguagePacksManager.AddResourceString('DependParamNotExists', 'Настройка %s, указанная в свойстве DependsOn у настройки %s, не существует!');
-
-
+  LanguagePacksManager.AddResourceString('SingleplayerMode', 'Одиночная игра (Single Player)');
+  LanguagePacksManager.AddResourceString('MultiplayerModeClient', 'Клиент - Сетевая игра (Multiplayer)');
+  LanguagePacksManager.AddResourceString('MultiplayerModeServer', 'Сервер - Сетевая игра (Multiplayer)');
 
 end.

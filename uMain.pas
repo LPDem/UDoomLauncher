@@ -10,7 +10,7 @@ uses
   UDLSettingsValues, UDLPorts, uMasterServerFrame, System.Actions;
 
 const
-  Version = '1.5';
+  Version = '1.6';
   RegKey = 'Software\UDoomLauncher';
 
 type
@@ -726,7 +726,9 @@ procedure TFmMain.Edt_DoomPortsSelect(Sender: TObject);
 var
   k: Integer;
   DoomPortType: TDoomPortType;
+  CB_GameMode_ItemIndex: Integer;
 begin
+  DoomPortType := ptUnknown;
   k := Edt_DoomPorts.ItemIndex;
   if k <> -1 then
   begin
@@ -740,6 +742,18 @@ begin
     UDLSettingsListM_S.DoomPortType := DoomPortType;
     UDLVisualListM_S.SetDoomPortType(DoomPortType);
   end;
+  CB_GameMode_ItemIndex := CB_GameMode.ItemIndex;
+  CB_GameMode.Items.Clear;
+  CB_GameMode.Items.Add(SBN('SingleplayerMode'));
+  if DoomPortType <> ptUnknown then
+  begin
+    CB_GameMode.Items.Add(SBN('MultiplayerModeClient'));
+    CB_GameMode.Items.Add(SBN('MultiplayerModeServer'));
+  end;
+  CB_GameMode.ItemIndex := CB_GameMode_ItemIndex;
+  if CB_GameMode.ItemIndex = -1 then
+    CB_GameMode.ItemIndex := 0;
+  CB_GameMode.OnSelect(Self);
 end;
 
 function TFmMain.ExtractResource(const ResName: string): string;
@@ -1338,9 +1352,6 @@ begin
   UDLVisualListM_C.LoadFromValuesList(UDLValuesListM_C);
   UDLVisualListM_S.LoadFromValuesList(UDLValuesListM_S);
   Edt_DoomPorts.OnSelect(Self);
-  if CB_GameMode.ItemIndex = -1 then
-    CB_GameMode.ItemIndex := 0;
-  CB_GameMode.OnSelect(Self);
   LB_IWADS.OnClick(Self);
 end;
 

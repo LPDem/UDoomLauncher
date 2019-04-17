@@ -1,7 +1,6 @@
 object fmMessage: TfmMessage
   Left = 0
   Top = 0
-  Caption = 'fmMessage'
   ClientHeight = 293
   ClientWidth = 426
   Color = clBtnFace

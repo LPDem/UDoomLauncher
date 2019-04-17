@@ -5,6 +5,7 @@ object MasterServerFrame: TMasterServerFrame
   Height = 478
   TabOrder = 0
   object Lbl_Count: TLabel
+    Tag = 666
     AlignWithMargins = True
     Left = 1
     Top = 464
@@ -27,6 +28,7 @@ object MasterServerFrame: TMasterServerFrame
     Align = alTop
     TabOrder = 0
     object Button1: TButton
+      Tag = 666
       Left = 25
       Top = 15
       Width = 75
