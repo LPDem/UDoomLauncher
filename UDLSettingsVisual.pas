@@ -80,6 +80,7 @@ type
     function GetValue: Variant; override;
     procedure SetParent(AParent: TWinControl); override;
     procedure SetValue(const Value: Variant); override;
+    procedure OnEditorExit(Sender: TObject);
   public
     procedure UpdateCaptions; override;
   end;
@@ -106,6 +107,7 @@ type
     function GetValue: Variant; override;
     procedure SetParent(AParent: TWinControl); override;
     procedure SetValue(const Value: Variant); override;
+    procedure OnEditorExit(Sender: TObject);
   public
     procedure UpdateCaptions; override;
   end;
@@ -417,6 +419,7 @@ begin
     FEdit.MaxValue := FUDLSetting.MaxValue;
   FEdit.OnChange := OnChange;
   FEdit.Parent := Self;
+  FEdit.OnExit := OnEditorExit;
 end;
 
 procedure TUDLIntegerVisual.FreeEditor;
@@ -430,6 +433,12 @@ begin
     Result := Round(FEdit.Value)
   else
     Result := 0;
+end;
+
+procedure TUDLIntegerVisual.OnEditorExit(Sender: TObject);
+begin
+  if VarIsNull(FEdit.Value) then
+    FEdit.Value := FUDLSetting.Default;
 end;
 
 procedure TUDLIntegerVisual.SetParent(AParent: TWinControl);
@@ -509,6 +518,7 @@ begin
     FEdit.MaxValue := FUDLSetting.MaxValue;
   FEdit.OnChange := OnChange;
   FEdit.Parent := Self;
+  FEdit.OnExit := OnEditorExit;
 end;
 
 procedure TUDLFloatVisual.FreeEditor;
@@ -535,6 +545,12 @@ begin
   FEdit.Value := Value;
 end;
 
+procedure TUDLFloatVisual.OnEditorExit(Sender: TObject);
+begin
+  if VarIsNull(FEdit.Value) then
+    FEdit.Value := FUDLSetting.Default;
+end;
+
 procedure TUDLFloatVisual.UpdateCaptions;
 begin
   inherited UpdateCaptions;
@@ -544,7 +560,7 @@ procedure TUDLTrackBarVisual.CreateEditor;
 begin
   inherited CreateEditor;
   FEdit := TNumericEdit.Create(Self);
-  FEdit.Top := 3;
+  FEdit.Top := 1;
   FEdit.Left := LeftMargin;
   FEdit.Width := 100;
   FEdit.Anchors := [akLeft, akTop];

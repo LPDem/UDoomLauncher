@@ -10,7 +10,7 @@ uses
   UDLSettingsValues, UDLPorts, uMasterServerFrame, System.Actions;
 
 const
-  Version = '1.6';
+  Version = '1.7';
   RegKey = 'Software\UDoomLauncher';
 
 type
@@ -1261,6 +1261,7 @@ begin
       // Doom Ports
       if Reg.ValueExists('ActivePort') then
         Edt_DoomPorts.ItemIndex := Reg.ReadInteger('ActivePort');
+      Edt_DoomPorts.OnSelect(Self);
       // PWADs
       if Reg.ValueExists('PWADs') then
       begin
@@ -1288,6 +1289,7 @@ begin
         CB_GameMode.ItemIndex := Reg.ReadInteger('GameType')
       else
         CB_GameMode.ItemIndex := 0;
+      CB_GameMode.OnSelect(Self);
       // Singleplayer options
       if Reg.ValueExists('SingleplayerOptions') then
       begin
@@ -1346,7 +1348,7 @@ begin
   UDLVisualListC.LoadFromValuesList(UDLValuesListC);
   UDLVisualListM_C.LoadFromValuesList(UDLValuesListM_C);
   UDLVisualListM_S.LoadFromValuesList(UDLValuesListM_S);
-  Edt_DoomPorts.OnSelect(Self);
+  //Edt_DoomPorts.OnSelect(Self);
   LB_IWADS.OnClick(Self);
 end;
 
