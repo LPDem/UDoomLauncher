@@ -10,7 +10,7 @@ uses
   UDLSettingsValues, UDLPorts, uMasterServerFrame, System.Actions;
 
 const
-  Version = '1.7';
+  Version = '1.8';
   RegKey = 'Software\UDoomLauncher';
 
 type
@@ -863,11 +863,11 @@ begin
   DoomPorts := TStreamedObjectList.Create;
   LoadHashesFromIni;
   LoadSettings;
+  LoadOptionsFromConfig;
   s := LanguagePacksManager.GenerateLangPack;
   LanguagePacksManager.SetDefaultLanguagePack(1049, 'Русский', s);
   LanguagePacksManager.EnumLanguagePacks;
   LanguagePacksManager.SetActiveLanguagePack(FLocale);
-  LoadOptionsFromConfig;
   LoadConfigList;
   LoadConfig('CurrentConfig');
   LanguagePacksManager.ApplyToForm(Self);
