@@ -456,6 +456,7 @@ begin
     LanguagePacksManager.SetActiveLanguagePack(FLocale, True);
     LanguagePacksManager.ApplyToAllForms;
     UpdateListsCaptions;
+    Edt_DoomPorts.OnSelect(Self);
   end;
 end;
 
@@ -869,12 +870,6 @@ begin
   LoadOptionsFromConfig;
   LoadConfigList;
   LoadConfig('CurrentConfig');
-  t := 1049;
-  LanguagePacksManager.SetActiveLanguagePack(t);
-  s := LanguagePacksManager.GenerateLangPack;
-  LanguagePacksManager.SetDefaultLanguagePack(1049, 'Русский', s);
-  LanguagePacksManager.EnumLanguagePacks;
-  LanguagePacksManager.SetActiveLanguagePack(FLocale);
   LanguagePacksManager.ApplyToForm(Self);
   UpdateListsCaptions;
   KeyCnt := 0;
