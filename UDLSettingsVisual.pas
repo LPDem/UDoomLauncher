@@ -152,6 +152,7 @@ type
     procedure OnButtonClick(Sender: TObject);
     procedure SetParent(AParent: TWinControl); override;
     procedure SetValue(const Value: Variant); override;
+    procedure OnEditorExit(Sender: TObject);
   public
     procedure UpdateCaptions; override;
   end;
@@ -413,10 +414,7 @@ begin
   FEdit.Anchors := [akLeft, akRight, akTop];
   FEdit.Format := '0';
   FEdit.MinValue := FUDLSetting.MinValue;
-  if FUDLSetting.MaxValue = 0 then
-    FEdit.MaxValue := MaxInt
-  else
-    FEdit.MaxValue := FUDLSetting.MaxValue;
+  FEdit.MaxValue := FUDLSetting.MaxValue;
   FEdit.OnChange := OnChange;
   FEdit.Parent := Self;
   FEdit.OnExit := OnEditorExit;
@@ -698,9 +696,11 @@ begin
   FEdit.Width := FRightMargin - FEdit.Left - 1;
   FEdit.Anchors := [akLeft, akRight, akTop];
   FEdit.Format := '0';
+  FEdit.MinValue := 0;
   FEdit.OnButtonClick := OnButtonClick;
   FEdit.ButtonVisible := True;
   FEdit.OnChange := OnChange;
+  FEdit.OnExit := OnEditorExit;
   FEdit.Parent := Self;
 end;
 
@@ -724,6 +724,12 @@ begin
   ABitFlags := Round(FEdit.Value);
   if TfmUDLBitFlagsEditor.EditBitFlags(FUDLSetting, ABitFlags) then
     FEdit.Value := ABitFlags;
+end;
+
+procedure TUDLBitFlagsVisual.OnEditorExit(Sender: TObject);
+begin
+  if VarIsNull(FEdit.Value) then
+    FEdit.Value := FUDLSetting.Default;
 end;
 
 procedure TUDLBitFlagsVisual.SetParent(AParent: TWinControl);

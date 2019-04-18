@@ -105,7 +105,10 @@ uses
 constructor TNumericEdit.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
+  FValue := Null;
   ButtonVisible := False;
+  FMinValue := Integer.MinValue;
+  FMaxValue := Integer.MaxValue;
 end;
 
 procedure TNumericEdit.Change;
@@ -227,12 +230,12 @@ end;
 
 procedure TNumericEdit.ValidateValue;
 begin
-  if not VarIsNull(FValue) and ((FMinValue <> 0) or (FMaxValue <> 0)) then
+  if not VarIsNull(FValue) then
   begin
-    if (FMinValue <> 0) and (FValue < FMinValue) then
+    if (FValue < FMinValue) then
       FValue := FMinValue
     else
-    if (FMaxValue <> 0) and (FValue > FMaxValue) then
+    if (FValue > FMaxValue) then
       FValue := FMaxValue;
   end;
 end;

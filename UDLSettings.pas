@@ -93,6 +93,8 @@ begin
   Name := FName;
   IWADNames := TStringList.Create;
   IWADNames.Delimiter := ',';
+  MinValue := Integer.MinValue;
+  MaxValue := Integer.MaxValue;
 end;
 
 destructor TUDLSetting.Destroy;

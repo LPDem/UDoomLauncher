@@ -115,6 +115,7 @@ end;
 
 procedure TEditWithButton.ButtonClick(Sender: TObject);
 begin
+  DoExit;
   if Assigned(FOnButtonClick) then
     FOnButtonClick(Sender);
 end;
